@@ -329,29 +329,6 @@ Cuando el procesamiento finaliza, Azure devuelve un documento JSON con toda la i
 
 ---
 
-# 🔄 Flujo de comunicación
-
-El siguiente diagrama resume la interacción entre AuraQuantic y Azure AI Document Intelligence durante el análisis de los documentos.
-
-```mermaid
-sequenceDiagram
-
-participant AQ as AuraQuantic
-participant Azure as Azure AI Document Intelligence
-
-AQ->>Azure: POST PDF
-Azure-->>AQ: Operation-Location
-
-loop Consulta del estado
-
-AQ->>Azure: GET Resultado
-
-end
-
-Azure-->>AQ: JSON con la información extraída
-```
-
----
 
 # 🧠 Entrenamiento del modelo
 
@@ -475,7 +452,7 @@ La aplicación incorpora dos módulos adicionales que permiten consultar informa
 Permite consultar toda la información referente a los productos registrados en el sistema.
 
 <p align="center">
-<img src="images/maestro-articulos.png" width="850"/>
+<img src="images/MaestroArticulos.png" width="850"/>
 </p>
 
 ---
@@ -485,7 +462,7 @@ Permite consultar toda la información referente a los productos registrados en 
 Permite acceder a la información de todos los clientes registrados.
 
 <p align="center">
-<img src="images/maestro-clientes.png" width="850"/>
+<img src="images/MaestroCliente.png" width="850"/>
 </p>
 
 ---
