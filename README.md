@@ -226,7 +226,7 @@ El **Proceso 21** constituye el punto de entrada de la automatización. Su funci
 La ejecución del proceso se realiza de forma completamente automática mediante una tarea programada, eliminando la necesidad de intervención manual y garantizando la recuperación periódica de los nuevos correos recibidos.
 
 <p align="center">
-<img src="images/proceso21.png" width="900"/>
+<img src="images/Proceso21.png" width="600"/>
 </p>
 
 ## Funcionamiento del proceso
@@ -247,101 +247,200 @@ La ejecución del proceso se realiza de forma completamente automática mediante
 En caso de producirse un error durante la recuperación de los correos, la aplicación muestra una pantalla con el código de devolución correspondiente, permitiendo al responsable decidir entre volver a intentar la operación o finalizar el proceso.
 
 <p align="center">
-<img src="images/ReintentarRecuperacionEmail.png" width="700"/>
+<img src="images/ReintentarRecuperacionEmails.png" width="700"/>
 </p>
 
 ---
 
 # 🤖 Proceso 22 - Extracción automática de información
 
-El segundo proceso es el encargado de interpretar automáticamente el contenido de cada correo electrónico.
+El **Proceso 22** constituye el núcleo de la solución desarrollada, ya que es el encargado de transformar los correos electrónicos recuperados en información estructurada lista para ser utilizada por la aplicación.
 
-En primer lugar, el correo recibido se convierte a formato PDF para facilitar su análisis. Posteriormente, dicho documento se envía mediante una API REST a **Azure AI Document Intelligence**, que procesa el contenido utilizando un modelo previamente entrenado.
-
-Una vez finalizado el análisis, Azure devuelve la información estructurada al proceso de AuraQuantic, donde es validada antes de continuar con la creación de la incidencia.
-
-### Flujo del proceso
-
-```mermaid
-flowchart LR
-
-A[Correo electrónico]
--->B[Conversión a PDF]
--->C[Azure AI Document Intelligence]
--->D[Extracción de datos]
--->E[Validación]
--->F[Proceso 23]
-```
+Para ello, el proceso recibe los correos electrónicos obtenidos por el **Proceso 21**, convierte automáticamente su contenido en un documento PDF y establece la comunicación con **Azure AI Document Intelligence** mediante una API REST. Una vez finalizado el análisis, los datos obtenidos son procesados y enviados al **Proceso 23**, donde se generará automáticamente la incidencia correspondiente.
 
 <p align="center">
-<img src="images/proceso22.png" width="900"/>
-</p>
-
-## Conversión automática a PDF
-
-Antes del análisis, el correo electrónico se transforma automáticamente en un documento PDF.
-
-<p align="center">
-<img src="images/pdf.png" width="700"/>
+    <img src="images/Proceso22.png" alt="Proceso 22" width="600"/>
 </p>
 
 ---
 
-## Azure AI Document Intelligence
+# Funcionamiento del proceso
 
-Para la extracción de la información se entrenó un modelo de Inteligencia Artificial capaz de reconocer automáticamente los diferentes campos presentes en las penalizaciones.
+El proceso está compuesto por varias actividades que permiten analizar automáticamente cada uno de los correos electrónicos recibidos.
+
+| Actividad | Descripción |
+|-----------|-------------|
+| 📥 Recepción del correo | Se recibe el correo enviado desde el Proceso 21. |
+| 📄 Conversión a PDF | El contenido del correo se convierte automáticamente a formato PDF. |
+| 📤 Envío a Azure | El documento se envía mediante una petición HTTP POST al modelo de Azure AI Document Intelligence. |
+| 🤖 Procesamiento | Azure analiza el documento utilizando el modelo previamente entrenado. |
+| 📥 Recuperación del resultado | Se realiza una petición HTTP GET para recuperar el resultado del análisis. |
+| ✅ Validación | Se comprueba que la información obtenida sea correcta. |
+| 📋 Generación de tareas | Los datos extraídos se envían al Proceso 23 para la creación automática de la incidencia. |
+
+---
+
+# 📄 Conversión del correo electrónico a PDF
+
+El primer paso consiste en transformar automáticamente el correo electrónico recibido en un documento PDF.
+
+Esta conversión es necesaria porque **Azure AI Document Intelligence** procesa documentos estructurados y permite obtener mejores resultados cuando el contenido se encuentra en este formato.
 
 <p align="center">
-<img src="images/azure-training.png" width="750"/>
+    <img src="images/PDFgenerado.png" alt="Conversión a PDF" width="750"/>
 </p>
 
-Una vez procesado el documento, Azure devuelve todos los datos estructurados.
+---
+
+# 🌐 Comunicación con Azure AI Document Intelligence
+
+Una vez generado el documento PDF, AuraQuantic establece la comunicación con **Azure AI Document Intelligence** utilizando su API REST.
+
+La integración se realiza mediante dos peticiones HTTP:
+
+- **POST**, utilizada para enviar el documento que será analizado.
+- **GET**, utilizada para consultar el resultado una vez finalizado el procesamiento.
+
+---
+
+## 📤 Petición POST
+
+La petición **POST** inicia el análisis del documento.
+
+AuraQuantic envía el PDF generado junto con la información necesaria para que Azure procese el documento utilizando el modelo previamente entrenado.
+
+Como respuesta, Azure devuelve un identificador de operación (*Operation-Location*), que será utilizado posteriormente para consultar el estado del análisis.
 
 <p align="center">
-<img src="images/azure-result.png" width="750"/>
+    <img src="images/POST.png" alt="Petición POST" width="900"/>
 </p>
 
-### Campos extraídos
+---
 
-La solución identifica automáticamente información como:
+## 📥 Petición GET
+
+Una vez iniciado el análisis, AuraQuantic realiza periódicamente una petición **GET** utilizando el identificador de operación devuelto anteriormente.
+
+Cuando el procesamiento finaliza, Azure devuelve un documento JSON con toda la información extraída automáticamente.
+
+<p align="center">
+    <img src="images/GET.png" alt="Petición GET" width="900"/>
+</p>
+
+---
+
+# 🔄 Flujo de comunicación
+
+El siguiente diagrama resume la interacción entre AuraQuantic y Azure AI Document Intelligence durante el análisis de los documentos.
+
+```mermaid
+sequenceDiagram
+
+participant AQ as AuraQuantic
+participant Azure as Azure AI Document Intelligence
+
+AQ->>Azure: POST PDF
+Azure-->>AQ: Operation-Location
+
+loop Consulta del estado
+
+AQ->>Azure: GET Resultado
+
+end
+
+Azure-->>AQ: JSON con la información extraída
+```
+
+---
+
+# 🧠 Entrenamiento del modelo
+
+Antes de poner en funcionamiento la aplicación fue necesario entrenar un modelo específico de **Azure AI Document Intelligence** utilizando ejemplos reales de penalizaciones logísticas.
+
+Durante este proceso se etiquetaron manualmente todos los campos que posteriormente debían identificarse automáticamente en los documentos recibidos.
+
+---
+
+# 📊 Resultado del análisis
+
+Una vez finalizado el procesamiento, Azure devuelve toda la información identificada en formato estructurado.
+
+
+---
+
+# 📋 Información extraída
+
+El modelo entrenado es capaz de identificar automáticamente los principales datos contenidos en las penalizaciones logísticas.
+
+Entre ellos destacan:
 
 - Número de ticket.
-- Fecha.
-- Albarán.
+- Fecha de la incidencia.
+- Número de albarán.
 - Cliente.
 - Destinatario.
+- Referencia del producto.
+- Cantidad.
 - Palés.
 - Bultos.
 - Peso.
 - Temperatura.
 - Tipo de anomalía.
 - Motivo de la penalización.
-- Información del producto.
+- Observaciones.
+- Información logística adicional.
 
-En total se extraen **17 campos** automáticamente.
+En total, el modelo identifica **17 campos**, permitiendo automatizar completamente el registro de la información y eliminando la necesidad de introducir los datos manualmente.
+
+---
+
+> **Resultado del proceso:** una vez validada toda la información, los datos obtenidos se envían automáticamente al **Proceso 23**, encargado de generar la incidencia dentro de la aplicación.
 
 ---
 
 # 💾 Proceso 23 - Creación automática de incidencias
 
-Una vez obtenida la información, el tercer proceso transforma los datos al formato interno de la aplicación y crea automáticamente una nueva incidencia.
+El **Proceso 23** es el encargado de recibir la información obtenida por **Azure AI Document Intelligence** y transformarla en una incidencia registrada dentro de la aplicación desarrollada en AuraQuantic.
 
-Durante este proceso también se realizan diferentes validaciones para comprobar la integridad de la información antes de almacenarla definitivamente.
-
-### Funciones principales
-
-- Recepción de los datos extraídos.
-- Conversión al modelo de datos.
-- Generación del identificador.
-- Validación.
-- Almacenamiento.
-- Gestión de errores.
+Una vez recibidos los datos, el proceso realiza las validaciones necesarias, genera el identificador de la incidencia y almacena toda la información para que pueda ser gestionada posteriormente por los usuarios.
 
 <p align="center">
-<img src="images/proceso23.png" width="900"/>
+    <img src="images/Proceso23.png" width="600"/>
 </p>
 
 ---
+
+## Funcionamiento del proceso
+
+| Actividad | Descripción |
+|-----------|-------------|
+| 📥 Recepción de datos | Se reciben los datos extraídos por Azure AI Document Intelligence. |
+| 🔄 Transformación | La información se adapta al modelo de datos utilizado por AuraQuantic. |
+| ✅ Validación | Se comprueba que todos los datos necesarios estén presentes y sean correctos. |
+| 📝 Creación de la incidencia | Se genera automáticamente una nueva incidencia dentro de la aplicación. |
+| 🆔 Asignación de identificador | Se asigna un identificador único para facilitar su seguimiento. |
+| 💾 Almacenamiento | La información queda registrada en la base de datos. |
+| 🏁 Finalización | La incidencia queda creada correctamente y disponible para su gestión. |
+
+---
+
+## Gestión de errores
+
+Si durante la creación de la incidencia se produce algún error, AuraQuantic genera una tarea de supervisión que permite al responsable revisar el problema y decidir cómo continuar.
+
+El usuario puede:
+
+- 🔄 Reintentar la creación de la incidencia.
+- ⏹️ Finalizar el proceso si no desea volver a intentarlo.
+
+<p align="center">
+    <img src="images/CodigoDevolucion.png" width="700"/>
+</p>
+
+---
+
+
+> **Resultado del proceso:** la incidencia queda registrada automáticamente dentro de la aplicación y preparada para ser gestionada por los usuarios.
 
 # 🖥️ Gestión de incidencias
 
@@ -356,13 +455,13 @@ Desde esta pantalla los usuarios pueden:
 - Añadir observaciones.
 
 <p align="center">
-<img src="images/incidencias.png" width="900"/>
+<img src="images/Incidencia.png" width="900"/>
 </p>
 
 Cada incidencia dispone además de una vista detallada donde se muestra toda la información obtenida durante el procesamiento.
 
 <p align="center">
-<img src="images/detalle-incidencia.png" width="850"/>
+<img src="VisualizacionDetalleIncidencia.png" width="850"/>
 </p>
 
 ---
