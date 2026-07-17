@@ -146,11 +146,27 @@ Tras entrenar el modelo con ejemplos reales de penalizaciones, el sistema es cap
 
 # 🏗 Análisis y diseño
 
+
 Antes del desarrollo de la aplicación fue necesario analizar el procedimiento utilizado por la empresa para gestionar las penalizaciones logísticas.
 
-Durante esta fase se estudiaron numerosos correos electrónicos enviados por el operador logístico con el objetivo de identificar la información necesaria para automatizar el proceso y diseñar la estructura de datos que posteriormente sería utilizada en AuraQuantic.
+El primer paso consistió en estudiar los correos electrónicos enviados por el operador logístico **STEF**, ya que estos constituían la fuente principal de información para la creación de las incidencias.
 
-El análisis permitió detectar diferentes situaciones, como correos con formatos distintos, campos incompletos o varias incidencias dentro del mismo mensaje, definiendo una solución flexible capaz de adaptarse a todos estos escenarios.
+Cada correo contenía información relacionada con el pedido, el cliente, el producto afectado y el motivo de la penalización. Sin embargo, la información se presentaba en un formato no estructurado, lo que obligaba a los empleados a revisar manualmente cada mensaje e introducir posteriormente los datos en hojas de cálculo.
+
+A continuación se muestra un ejemplo de uno de los correos electrónicos recibidos durante el proceso de análisis:
+
+<p align="center">
+      <img src="images/EjemploCorreo.png" alt="Ejemplo de correo recibido" width="850"/>
+</p>
+
+Tras el análisis de múltiples correos se identificaron los campos relevantes que debían extraerse automáticamente, permitiendo definir la estructura de datos utilizada posteriormente por la aplicación.
+
+Durante esta fase también se detectaron diferentes situaciones que la solución debía contemplar:
+
+- Correos con formatos diferentes.
+- Campos incompletos.
+- Varias incidencias dentro de un mismo correo.
+- Diferentes tipos de penalización.
 
 Como resultado de esta fase se elaboraron diferentes diagramas UML para representar la arquitectura y el funcionamiento del sistema:
 
@@ -205,22 +221,33 @@ G --> H[Gestión por el usuario]
 
 # 📧 Proceso 21 - Recuperación de correos electrónicos
 
-El primer proceso desarrollado tiene como objetivo recuperar automáticamente los correos electrónicos enviados por el operador logístico.
+El **Proceso 21** constituye el punto de entrada de la automatización. Su función es recuperar automáticamente los correos electrónicos de penalizaciones recibidos en el buzón corporativo y preparar la información necesaria para que los procesos posteriores puedan analizarla y generar las incidencias correspondientes.
 
-Para ello, AuraQuantic establece una conexión con el buzón corporativo donde se reciben las penalizaciones y obtiene todos aquellos mensajes pendientes de procesamiento.
-
-Una vez recuperados, cada correo es preparado para su posterior tratamiento por el siguiente proceso.
-
-### Funciones principales
-
-- Recuperación automática de correos.
-- Conexión con el buzón corporativo.
-- Control de errores.
-- Registro de la ejecución.
-- Envío del correo al Proceso 22.
+La ejecución del proceso se realiza de forma completamente automática mediante una tarea programada, eliminando la necesidad de intervención manual y garantizando la recuperación periódica de los nuevos correos recibidos.
 
 <p align="center">
 <img src="images/proceso21.png" width="900"/>
+</p>
+
+## Funcionamiento del proceso
+
+| Actividad | Descripción |
+|-----------|-------------|
+| **Inicio programado** | El proceso se ejecuta automáticamente todos los días a las **07:00 horas**. |
+| **Inicialización** | Se inicializan las variables necesarias, como la fecha de recuperación y el contador de ejecuciones. |
+| **Conexión al buzón** | AuraQuantic establece la conexión con el buzón destinado a las penalizaciones y recupera los correos pendientes. |
+| **Comprobación** | Se verifica que la recuperación se ha realizado correctamente. |
+| **Gestión de errores** | Si ocurre algún problema, el responsable puede revisar la incidencia y decidir si desea reintentar la recuperación. |
+| **Control de ejecuciones** | El sistema incrementa el contador y comprueba si se ha alcanzado el número máximo de ciclos configurados. |
+| **Finalización** | Se registra la fecha y hora de finalización del proceso. |
+| **Generación de tareas** | Los correos recuperados se envían automáticamente al **Proceso 22**, encargado de su análisis mediante Azure AI Document Intelligence. |
+
+### Gestión de errores
+
+En caso de producirse un error durante la recuperación de los correos, la aplicación muestra una pantalla con el código de devolución correspondiente, permitiendo al responsable decidir entre volver a intentar la operación o finalizar el proceso.
+
+<p align="center">
+<img src="images/ReintentarRecuperacionEmail.png" width="700"/>
 </p>
 
 ---
