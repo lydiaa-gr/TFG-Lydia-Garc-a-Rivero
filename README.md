@@ -12,7 +12,7 @@
 
 Aplicación desarrollada sobre **AuraQuantic** para automatizar la gestión de penalizaciones logísticas mediante **Business Process Management (BPM)** e **Inteligencia Artificial**.
 
-<img src="images/banner.png" alt="Banner del proyecto" width="900"/>
+<img src="images/logo.png" alt="Banner del proyecto" width="500"/>
 
 </div>
 
