@@ -138,20 +138,6 @@ Tras entrenar el modelo con ejemplos reales de penalizaciones, el sistema es cap
 
 ---
 
-## Automatización de procesos
-
-La solución desarrollada automatiza completamente el flujo inicial de gestión de penalizaciones.
-
-Las principales tareas automatizadas son:
-
-- Recuperación de correos electrónicos.
-- Conversión del correo a PDF.
-- Envío del documento a Azure.
-- Extracción automática de la información.
-- Validación de los datos.
-- Creación automática de incidencias.
-
----
 
 # 📋 Requerimientos
 
