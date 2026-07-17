@@ -20,15 +20,15 @@ Aplicación desarrollada sobre **AuraQuantic** para automatizar la gestión de p
 
 # 📑 Índice
 
-- [🏭 Contexto del proyecto](#-contexto-del-proyecto)
-- [🎯 Objetivos](#-objetivos)
-- [🛠 Tecnologías utilizadas](#-tecnologías-utilizadas)
-- [📚 Marco teórico](#-marco-teórico)
-- [📋 Requerimientos](#-requerimientos)
-- [🏗 Análisis y diseño](#-análisis-y-diseño)
-- [⚙️ Desarrollo de la solución](#️-desarrollo-de-la-solución)
-- [📊 Resultados](#-resultados)
-- [🚀 Líneas futuras](#-líneas-futuras)
+- [🏭 Contexto del proyecto]
+- [🎯 Objetivos]
+- [🛠 Tecnologías utilizadas]
+- [📚 Marco teórico]
+- [📋 Requerimientos]
+- [🏗 Análisis y diseño]
+- [⚙️ Desarrollo de la solución]
+- [📊 Resultados]
+- [🚀 Líneas futuras]
 
 ---
 
