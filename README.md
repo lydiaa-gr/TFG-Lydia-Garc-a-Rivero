@@ -117,11 +117,6 @@ Para automatizar la lectura de los correos electrónicos se ha utilizado **Azure
 
 Tras entrenar el modelo con ejemplos reales de penalizaciones, el sistema es capaz de identificar automáticamente los campos necesarios para crear las incidencias.
 
-<p align="center">
-<img src="images/azure-training.png" width="750"/>
-</p>
-
-
 ---
 
 
@@ -160,7 +155,6 @@ El análisis permitió detectar diferentes situaciones, como correos con formato
 Como resultado de esta fase se elaboraron diferentes diagramas UML para representar la arquitectura y el funcionamiento del sistema:
 
 - Diagrama de contexto.
-
   <p align="center">
 <img src="images/contexto.png" width="850"/>
 </p>
@@ -184,8 +178,6 @@ Como resultado de esta fase se elaboraron diferentes diagramas UML para represen
 <p align="center">
 <img src="images/contexto.png" width="850"/>
 </p>
-
----
 
 ---
 
