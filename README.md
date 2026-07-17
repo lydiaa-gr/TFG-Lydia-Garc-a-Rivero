@@ -50,10 +50,6 @@ Este procedimiento presentaba diferentes inconvenientes:
 
 Con el objetivo de mejorar este proceso se desarrolló una aplicación basada en **Business Process Management (BPM)** utilizando la plataforma **AuraQuantic**, capaz de automatizar la recepción de correos electrónicos, analizar automáticamente su contenido mediante **Azure AI Document Intelligence** y generar incidencias listas para su gestión.
 
-<p align="center">
-<img src="images/andros.png" width="900"/>
-</p>
-
 ---
 
 # 🎯 Objetivos
