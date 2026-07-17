@@ -92,10 +92,6 @@ Business Process Management (BPM) es una metodología orientada al análisis, mo
 
 En este proyecto constituye la base sobre la que se diseña todo el flujo de gestión de penalizaciones, permitiendo automatizar tareas repetitivas y mejorar la eficiencia del proceso.
 
-<p align="center">
-<img src="images/bpm.png" width="700"/>
-</p>
-
 ---
 
 ## AuraQuantic
@@ -112,9 +108,6 @@ Con AuraQuantic se han desarrollado:
 - Maestros de clientes y artículos.
 - Automatización del flujo completo.
 
-<p align="center">
-<img src="images/auraquantic.png" width="750"/>
-</p>
 
 ---
 
@@ -128,9 +121,6 @@ Tras entrenar el modelo con ejemplos reales de penalizaciones, el sistema es cap
 <img src="images/azure-training.png" width="750"/>
 </p>
 
-<p align="center">
-<img src="images/azure-result.png" width="750"/>
-</p>
 
 ---
 
@@ -170,12 +160,27 @@ El análisis permitió detectar diferentes situaciones, como correos con formato
 Como resultado de esta fase se elaboraron diferentes diagramas UML para representar la arquitectura y el funcionamiento del sistema:
 
 - Diagrama de contexto.
-- Diagrama de casos de uso.
-- Diagrama de actividades.
-- Diagrama de clases.
-- Diagrama de objetos.
-- Diagrama de secuencia.
 
+  <p align="center">
+<img src="images/contexto.png" width="850"/>
+</p>
+- Diagrama de casos de uso.
+<p align="center">
+<img src="images/contexto.png" width="850"/>
+</p>
+- Diagrama de actividades.
+<p align="center">
+<img src="images/contexto.png" width="850"/>
+</p>
+- Diagrama de clases.
+<p align="center">
+<img src="images/contexto.png" width="850"/>
+</p>
+- Diagrama de objetos.
+<p align="center">
+<img src="images/contexto.png" width="850"/>
+</p>
+- Diagrama de secuencia.
 <p align="center">
 <img src="images/contexto.png" width="850"/>
 </p>
