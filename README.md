@@ -156,27 +156,27 @@ Como resultado de esta fase se elaboraron diferentes diagramas UML para represen
 
 - Diagrama de contexto.
   <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/DiagramaContexto.png" width="850"/>
 </p>
 - Diagrama de casos de uso.
 <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/CasosUso.png" width="450"/>
 </p>
 - Diagrama de actividades.
 <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/DiagramaActividades.png" width="450"/>
 </p>
 - Diagrama de clases.
 <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/DiagramaClases.png" width="600"/>
 </p>
 - Diagrama de objetos.
 <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/DiagramaObjetos.png" width="600"/>
 </p>
 - Diagrama de secuencia.
 <p align="center">
-<img src="images/contexto.png" width="850"/>
+<img src="images/DiagramaSecuencia.png" width="600"/>
 </p>
 
 ---
